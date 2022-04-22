@@ -1,0 +1,15 @@
+gitlab.env.yml
+.terraform
+**/*:Zone.Identifier
+**/*.hcl
+**/*.tfstate
+tfplan
+*.tfstate.backup
+states
+*.kdbx
+**/conf.tfvars
+**/*.log
+**/*.html
+**/*.xml
+**/__pycache__/**
+!.tflint.hcl

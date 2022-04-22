@@ -1,0 +1,42 @@
+# -------------------------------------------------------
+# TECHNOGIX
+# -------------------------------------------------------
+# Copyright (c) [2022] Technogix SARL
+# All rights reserved
+# -------------------------------------------------------
+# Analysis pipeline for website
+# -------------------------------------------------------
+# Nadège LEMPERIERE, @01 march 2022
+# Latest revision: 01 march 2022
+# -------------------------------------------------------
+
+name: Module Security Scan Pipeline
+
+on:
+  schedule:
+    - cron:  '0 0 1 * *'
+
+jobs:
+
+    check:
+        name: Build Module
+        runs-on: ubuntu-latest
+        container: node:alpine
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@master
+
+            - name: Run Snyk to check for vulnerabilities
+              continue-on-error: true
+              uses: snyk/actions/iac@master
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+              with:
+                args: --sarif-file-output=snyk.sarif
+
+            - name: Upload result to GitHub Code Scanning
+              continue-on-error: true
+              uses: github/codeql-action/upload-sarif@v1
+              if: always()
+              with:
+                sarif_file: snyk.sarif

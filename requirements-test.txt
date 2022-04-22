@@ -1,0 +1,2 @@
+git+https://github.com/technogix-terraform/robotframework.git@v1.1.0
+robotframework==4.1.3
